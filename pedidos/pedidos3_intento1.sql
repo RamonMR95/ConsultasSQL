@@ -122,6 +122,7 @@ WHERE NOT EXISTS (SELECT id_empleado
 
 /* EJERCICIO 10
 Mostrar los empleados de Murcia que han vendido menos de 100 unidades de productos, contando las repeticiones del mismo producto.
+
 SELECT DISTINCT e.nombre
 FROM empleados e
 INNER JOIN pedidos p USING(id_empleado)
