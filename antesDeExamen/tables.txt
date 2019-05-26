@@ -1,0 +1,98 @@
+
+mysql> desc cliente;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_cliente | int(6)      | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(36) | NO   |     | NULL    |                |
+| provincia  | smallint(2) | YES  | MUL | NULL    |                |
+| f_nac      | date        | YES  |     | NULL    |                |
+| tlfno      | varchar(15) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+
+mysql> desc fabricante;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| id_fabricante | smallint(3) | NO   | PRI | NULL    |       |
+| nombre        | varchar(30) | NO   |     | NULL    |       |
+| pais          | smallint(3) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+
+mysql> desc farmaco;
++----------------------+--------------+------+-----+---------+----------------+
+| Field                | Type         | Null | Key | Default | Extra          |
++----------------------+--------------+------+-----+---------+----------------+
+| Codigo               | int(11)      | NO   | PRI | NULL    | auto_increment |
+| Nombre               | varchar(255) | NO   |     | NULL    |                |
+| Concentracion        | varchar(255) | YES  |     | NULL    |                |
+| Formato              | varchar(255) | NO   |     | NULL    |                |
+| Formato_Simple       | varchar(255) | NO   |     | NULL    |                |
+| Presentacion         | varchar(255) | NO   |     | NULL    |                |
+| Fracciones           | int(11)      | NO   |     | NULL    |                |
+| Fecha_Registro       | date         | NO   |     | NULL    |                |
+| N_Registro_Sanitario | varchar(255) | NO   |     | NULL    |                |
+| Fabricante           | smallint(3)  | YES  | MUL | NULL    |                |
+| Precio               | float(4,2)   | NO   |     | NULL    |                |
++----------------------+--------------+------+-----+---------+----------------+
+
+mysql> desc pedido;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id_pedido   | bigint(8)   | NO   | PRI | NULL    | auto_increment |
+| id_cliente  | int(6)      | NO   | MUL | NULL    |                |
+| id_vendedor | smallint(3) | YES  | MUL | NULL    |                |
+| f_pedido    | date        | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+
+
+mysql> desc detalles_pedido;
++-------------+---------------------+------+-----+---------+----------------+
+| Field       | Type                | Null | Key | Default | Extra          |
++-------------+---------------------+------+-----+---------+----------------+
+| id_dp       | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
+| id_pedido   | bigint(8)           | NO   | MUL | NULL    |                |
+| id_producto | int(11)             | NO   | MUL | NULL    |                |
+| cantidad    | smallint(4)         | NO   |     | NULL    |                |
+| Precio      | float(4,2)          | NO   |     | NULL    |                |
++-------------+---------------------+------+-----+---------+----------------+
+
+mysql> desc provincia;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| id_provincia | smallint(2) | NO   | PRI | NULL    |       |
+| nombre       | varchar(16) | NO   |     | NULL    |       |
+| id_ca        | varchar(2)  | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> desc ccaa;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id_ca  | smallint(2) | NO   | PRI | NULL    |       |
+| nombre | varchar(20) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+mysql> desc pais;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id_pais     | smallint(3) | NO   | PRI | NULL    |       |
+| cod_pais    | varchar(2)  | YES  |     | NULL    |       |
+| abreviatura | varchar(3)  | YES  |     | NULL    |       |
+| nombre      | varchar(30) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+mysql> desc vendedor;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| cod_vendedor | smallint(3) | NO   | PRI | NULL    | auto_increment |
+| nombre       | varchar(25) | NO   |     | NULL    |                |
+| calle        | varchar(30) | NO   |     | NULL    |                |
+| f_nac        | date        | YES  |     | NULL    |                |
+| pais         | smallint(3) | YES  |     | NULL    |                |
+| turno        | varchar(1)  | YES  |     | M       |                |
++--------------+-------------+------+-----+---------+----------------+

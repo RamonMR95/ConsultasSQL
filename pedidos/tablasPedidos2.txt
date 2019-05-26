@@ -1,0 +1,58 @@
+mysql> desc clientes;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id_cliente | int(11)     | NO   | PRI | NULL    |       |
+| nombre     | varchar(10) | NO   |     | NULL    |       |
+| calle      | varchar(10) | YES  |     | NULL    |       |
+| ciudad     | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+mysql> desc detalles_pedido;
++-------------------+---------------------+------+-----+---------+----------------+
+| Field             | Type                | Null | Key | Default | Extra          |
++-------------------+---------------------+------+-----+---------+----------------+
+| id_detalle_pedido | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
+| id_pedido         | int(11)             | NO   | MUL | NULL    |                |
+| id_producto       | int(11)             | NO   | MUL | NULL    |                |
+| cantidad          | int(11)             | NO   |     | NULL    |                |
++-------------------+---------------------+------+-----+---------+----------------+
+
+mysql> desc detalles_pedido_old;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| id_pedido   | int(11) | NO   | PRI | NULL    |       |
+| id_producto | int(11) | NO   | PRI | NULL    |       |
+| cantidad    | int(11) | NO   |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+
+mysql> desc empleados;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id_empleado | int(11)     | NO   | PRI | NULL    |       |
+| nombre      | varchar(10) | NO   |     | NULL    |       |
+| calle       | varchar(10) | YES  |     | NULL    |       |
+| ciudad      | varchar(10) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+mysql> desc pedidos;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| id_pedido    | int(11) | NO   | PRI | NULL    |       |
+| id_cliente   | int(11) | YES  | MUL | NULL    |       |
+| id_empleado  | int(11) | YES  | MUL | NULL    |       |
+| fecha_Pedido | date    | NO   |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+
+mysql> desc productos;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id_producto | int(11)     | NO   | PRI | NULL    |       |
+| nombre      | varchar(10) | NO   |     | NULL    |       |
+| existencias | int(11)     | YES  |     | NULL    |       |
+| precio      | int(11)     | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+

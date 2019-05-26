@@ -1,0 +1,9 @@
+  - Para la tabla DNI al ser PK, no hace falta indexar, porque ya está indexada en memoria.
+
+  - Para la tabla factura es aconsejable crear un índice para optimizar las consultas.
+
+  - No hace falta indexar apellidos, sólo sería necesario si se preveén muchas consultas
+utilizando ese campo, hay que evitar el uso de índices innecesarios porque ésto aumentaría
+drásticamente la memoria que ocupa la base de datos en memoria.
+
+  
