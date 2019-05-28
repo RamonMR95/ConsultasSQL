@@ -1,4 +1,6 @@
-/* EJERCICIO 1 */
+/* EJERCICIO 1
+Crear una función para contar albaranes de un año concreto.
+Para ello se tiene que pasar como parámetro al albaran el año por el que se quiere consultar en un parámetro.*/
 DELIMITER //
 CREATE FUNCTION contar_albaranes( v_fecha_albaran DATE)
 RETURNS INT
@@ -17,7 +19,10 @@ DELIMITER ;
 SELECT contar_albaranes('2014-01-01') AS 'Nº DE ALBARANES';
 
 
-/* EJERCICIO 2 */
+/* EJERCICIO 2
+Calcular los años de un determinado cliente.
+Para calcular los años deberemos pasar a la función un parámetro que identifique el cliente, en nuestro caso el dni.
+*/
 DELIMITER //
 CREATE FUNCTION calcular_edad(v_dni VARCHAR(9))
 RETURNS INT
@@ -36,7 +41,10 @@ DELIMITER ;
 SELECT calcular_edad('11111111A') AS 'EDAD';
 
 
-/* EJERCICIO 3 */
+/* EJERCICIO 3
+Calcular el valor total en almacen de todas las unidades de un determinado artículo.
+Para ello la función habrá de recibir como parámetro el código del artículo y tendra que calcular el valor total en base
+al precio de ese artículo y del número de unidades existentes en el almacen (stock).*/
 DELIMITER //
 CREATE FUNCTION valor_total_almacen(v_cod_art VARCHAR(7))
 RETURNS INT
@@ -56,7 +64,9 @@ SELECT valor_total_almacen('ART-120') AS 'Valor Total';
 SELECT valor_total_almacen('ART-100') AS 'Valor Total';
 
 
-/* EJERCICIO 4 */
+/* EJERCICIO 4
+Calcular el importe total de facturación de un determinado cliente.
+Para ello se tendrá que pasar como parámetro el dni del cliente.*/
 DELIMITER //
 CREATE FUNCTION importe_total_factura(v_dni VARCHAR(9))
 RETURNS INT
@@ -76,7 +86,12 @@ DELIMITER ;
 SELECT importe_total_factura('11111111A') AS 'Importe Total';
 
 
-/* EJERCICIO 5 */
+/* EJERCICIO 5
+Crear una función que informe sobre rotura de stock de un artículo.
+La función debe recibir, dos parámetros, el código del artículo y el nivel de rotura de stock por
+debajo del cual debe informar si está ese artículo por debajo del mínimo. La función devolerá Y si
+el stock del artículo está por debajo del nivel proporcionado y N si no está por debajo.
+*/
 DELIMITER //
 CREATE FUNCTION rotura_stock(v_cod_art VARCHAR(8), v_umbral INT)
 RETURNS CHAR
@@ -98,7 +113,12 @@ DELIMITER ;
 
 SELECT rotura_stock('ART-100', 26) AS 'Rotura de Stock';
 
-/* EJERCICIO 6 */
+/* EJERCICIO 6
+Crear una función que verifique que el importe de una factura se corresponda con la suma de los importes
+de sus albaranes correspondientes.
+La función recogerá como parámetro el código de factura y devolverá Y si el importe de la factura
+corresponde con la suma de los importes de sus albaranes correspondientes y devolverá N si el importe
+de la factura no se corresponde con la suma de los importes de sus albaranes correspondientes*/
 DELIMITER //
 CREATE FUNCTION verificar_factura(v_factura VARCHAR(9))
 RETURNS CHAR
