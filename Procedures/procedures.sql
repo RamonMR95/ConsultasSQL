@@ -1,4 +1,16 @@
-/* EJERCICIO 1 */
+/* NOTA
+Debemos de tener cuidado con el nombre de las parámetros y que estos no coincidan con el nombre de las columnas de una tabla, ya que Mysql interpretará siempre que se trata del nombre del parámetro y nunca el de la columna.
+En el siguiente enlace puede ver una explicación.
+Podríamos solucionarlo referenciando el nombre de la columna de la forma: nombre_tabla.nombre_columna
+Ejercicio Clase: Modificar el procedimiento agregando un comentario:
+ALTER PROCEDURE inc_stock
+COMMENT 'Modifica el stock';
+Para verlo:
+
+SHOW PROCEDURE STATUS WHERE DB = 'facturacion';*/
+
+/* EJERCICIO 1
+Crear un procedimiento que informe si un cliente es mayor de 65 años.*/
 DELIMITER //
 CREATE PROCEDURE checkEdad(IN v_dni VARCHAR(9), OUT r CHAR(1))
 BEGIN
@@ -18,7 +30,8 @@ CALL checkEdad('11111111A', @valor);
 SELECT @valor;
 
 
-/* EJERCICIO 2 */
+/* EJERCICIO 2
+Que inserte información en la tabla clientes (un nuevo registro).*/
 
 DELIMITER //
 CREATE PROCEDURE insertClientes(IN v_dni VARCHAR(9),
@@ -35,7 +48,8 @@ DELIMITER ;
 CALL insertClientes('12345678Z', 'Pepito', 'Martinez', '1995-03-15', 'Calle', '30154');
 
 
-/* EJERCICIO 3 */
+/* EJERCICIO 3
+Que actualice el nombre del cliente */
 DELIMITER //
 CREATE PROCEDURE updateCliente(IN v_dni VARCHAR(9), IN v_nombre VARCHAR(255))
 BEGIN
@@ -46,7 +60,9 @@ DELIMITER ;
 CALL updateCliente('12345678Z', 'Pedro');
 
 
-/* EJERCICIO 4 */
+/* EJERCICIO 4
+Crea un procedimiento al que se le pase como parámetro el dni de empleado y devuelva en
+el mismo parámetro el nombre completo (nombre y apellidos) del mismo*/
 DELIMITER //
 CREATE PROCEDURE getNombreApellidos(INOUT v_dni VARCHAR(9))
 BEGIN
@@ -60,7 +76,12 @@ SET @valor = '55555555E';
 CALL getNombreApellidos(@valor);
 
 
-/* EJERCICIO 5 */
+/* EJERCICIO 5
+Agrega un campo 'sueldo' a la tabla Comercial. Inserta sueldos entre 1000 y 2000 euros para
+cada empleado. Crea un procedimiento al que se le envíe como parámetros el dni de un empleado y
+una cantidad que representa el dinero que se le va a aumentar al empleado. Sólo se tiene que aumentar
+el último sueldo, el sueldo que tiene actualmente. El procedimiento debe devolver en el mismo parámetro
+el nuevo sueldo del empleado.*/
 ALTER TABLE COMERCIAL
 	ADD COLUMN sueldo INT NOT NULL;
 
@@ -88,7 +109,10 @@ DELIMITER ;
 SET @s = 200;
 CALL incrementSalary('55555555E', @s);
 
-/* EJERCICIO 6 */
+/* EJERCICIO 6 
+Se desea realizar un procedimiento al cual se le pase como parámetro una cantidad y un número de cuenta y
+devuelva si la cuenta tiene un saldo superior o inferior a la cantidad pasada como parámetro. Realizar el
+procedimiento para la BD banco.*/
 DELIMITER //
 CREATE PROCEDURE superiorSaldo(IN n_cuenta BIGINT, IN v_cantidad INT(9), OUT r CHAR)
 BEGIN
