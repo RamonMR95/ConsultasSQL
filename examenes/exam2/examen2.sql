@@ -334,13 +334,7 @@ WHERE f_pedido >= ANY (SELECT f_pedido
                         FROM pedido p
                         INNER JOIN cliente c USING(id_cliente)
                         INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                        WHERE pro.nombre LIKE 'Ceuta'
-                        UNION
-                        SELECT f_pedido
-                        FROM pedido p
-                        INNER JOIN cliente c USING(id_cliente)
-                        INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                        WHERE pro.nombre LIKE 'Melilla');
+                        WHERE pro.nombre LIKE 'CEUTA' OR pro.nombre LIKE 'MELILLA');
 
 /* EJERCICIO 19 */
 -- ¿Cuántos fármacos diferentes ( distinto nombre) se han vendido con fecha posterior a cualquier
@@ -354,20 +348,15 @@ WHERE f_pedido >= ALL (SELECT f_pedido
                         FROM pedido p
                         INNER JOIN cliente c USING(id_cliente)
                         INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                        WHERE pro.nombre LIKE 'Ceuta'
-                        UNION
-                        SELECT f_pedido
-                        FROM pedido p
-                        INNER JOIN cliente c USING(id_cliente)
-                        INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                        WHERE pro.nombre LIKE 'Melilla');
+                        WHERE pro.nombre LIKE 'CEUTA' OR pro.nombre LIKE 'MELILLA');
 
 /* EJERCICIO 20 */
 -- Indica la cantidad total de unidades vendidas del fármaco que ha visto aumentado su precio
 -- en 10 céntimos (El precio que aparece en el fármaco en la tabla fármaco es 10 céntimos
 -- superior al que aparece en detalles pedido)
 
-SELECT COUNT(dp.id_producto)
+SELECT SUM(dp.cantidad)
 FROM detalles_pedido dp
 INNER JOIN farmaco f ON dp.id_producto = f.Codigo
-WHERE f.Precio = dp.Precio + 0.10;
+WHERE f.Precio = dp.Precio + 0.10
+GROUP BY dp.id_producto;
