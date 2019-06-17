@@ -30,7 +30,6 @@ HAVING COUNT(id_dp) = (SELECT(COUNT(id_pedido))
                               GROUP BY id_producto
                               ORDER BY COUNT(id_pedido) DESC
                               LIMIT 1);
-
 */
 
 /* EJERCICIO 4
