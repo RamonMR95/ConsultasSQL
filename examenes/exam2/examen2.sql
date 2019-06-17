@@ -102,17 +102,10 @@ WHERE pro.nombre like 'MADRID'
                     INNER JOIN pedido p ON dp.id_pedido = p.id_pedido
                     INNER JOIN cliente c ON p.id_cliente = c.id_cliente
                     INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                    WHERE pro.nombre like 'BARCELONA')
-  AND f_pedido BETWEEN '2017-01-01' AND '2017-01-03';
+                    WHERE pro.nombre like 'BARCELONA'
+						AND f_pedido BETWEEN '2017-01-01' AND '2017-01-03')
+  AND f_pedido BETWEEN '2017-01-01' AND '2017-01-03'
 
-/*
-+--------------+
-| nombre       |
-+--------------+
-| PANTOMICINA  |
-| HIPERFLEX TU |
-+--------------+
-*/
 
 /* EJERCICIO 6 */
 -- Suponiendo un stock inicial de mil unidades del fármaco más vendido indica con
@@ -233,17 +226,11 @@ INNER JOIN farmaco f ON fa.id_fabricante = f.fabricante
 INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
 INNER JOIN pedido p USING(id_pedido)
 INNER JOIN cliente USING(id_cliente)
-WHERE f_pedido > ANY (SELECT f_pedido
+WHERE f_pedido >= ANY (SELECT f_pedido
                       FROM pedido p
                       INNER JOIN cliente c USING(id_cliente)
                       INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                      WHERE pro.nombre LIKE 'Murcia'
-                      UNION
-                      SELECT f_pedido
-                      FROM pedido p
-                      INNER JOIN cliente c USING(id_cliente)
-                      INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                      WHERE pro.nombre LIKE 'Almeria');
+                      WHERE pro.nombre LIKE 'Murcia' OR pro.nombre LIKE 'Almeria');
 
 
 /* EJERCICIO 13 */
