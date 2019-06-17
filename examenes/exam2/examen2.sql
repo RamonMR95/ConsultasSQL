@@ -217,8 +217,8 @@ WHERE ccaa.id_ca NOT IN (SELECT pro.id_ca
 
 
 /* EJERCICIO 12 */
--- ¿Cuántos fabricantes diferentes (distinto nombre) han vendido algún fármaco con fecha posterior a alguno
--- de los pedidos realizados bien en Murcia bien en Almeria?
+-- ¿Cuántos fabricantes diferentes (distinto nombre) han vendido algún fármaco con fecha
+-- posterior a alguno de los pedidos realizados bien en Murcia bien en Almeria?
 
 SELECT COUNT(DISTINCT(fa.nombre))
 FROM fabricante fa
