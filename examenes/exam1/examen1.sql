@@ -160,14 +160,37 @@ HAVING SUM(dp.cantidad) >= ALL (SELECT SUM(dp.cantidad)
 -- Da el resultado separado por comas y sin espacios en blanco salvo los que puedan ir
 -- incluidos en el propio nombre del fármaco.
 
-
+SELECT DISTINCT f.nombre
+FROM farmaco f
+INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
+INNER JOIN pedido p USING(id_pedido)
+INNER JOIN vendedor v ON p.id_vendedor = v.cod_vendedor
+WHERE v.nombre LIKE 'Steve Wozniak'
+  AND f_pedido BETWEEN '2016-12-01' AND '2016-12-31'
+  AND f.nombre NOT IN (SELECT f.nombre
+                        FROM farmaco f
+                        INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
+                        INNER JOIN pedido p USING(id_pedido)
+                        INNER JOIN vendedor v ON p.id_vendedor = v.cod_vendedor
+                        WHERE v.nombre LIKE 'Paul Allen');
 
 
 /* EJERCICIO 13  */
 -- Indica el país donde se han registrado (Fecha_Registro) más medicamentos diferentes
 -- desde agosto de 2016 (inclusive)
 
-
+SELECT pa.nombre, COUNT(f.Codigo)
+FROM pais pa
+INNER JOIN fabricante fa ON pa.id_pais = fa.pais
+INNER JOIN farmaco f ON fa.id_fabricante = f.fabricante
+WHERE f.Fecha_Registro > '2016-08-01'
+GROUP BY pa.nombre
+HAVING COUNT(f.Codigo) >= ALL (SELECT COUNT(f.Codigo)
+                              FROM farmaco f
+                              INNER JOIN fabricante fa ON f.fabricante = fa.id_fabricante
+                              INNER JOIN pais pa ON fa.pais = pa.id_pais
+                              WHERE Fecha_Registro > '2016-08-01'
+                              GROUP BY pa.nombre);
 
 /* EJERCICIO 14 */
 -- ¿Cuántos fármacos diferentes (distinto nombre) se han vendido con fecha posterior a alguno de
@@ -192,6 +215,7 @@ WHERE f_pedido >= ANY (SELECT f_pedido
 -- Da las respuestas separadas por comas, sin espacios en blanco y en orden ascendente (no
 -- significa que la select tenga que devolverlas así, es simplemente para introducir las
 -- respuestas en el cuestionario)..
+
 
 
 
