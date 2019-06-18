@@ -183,14 +183,16 @@ SELECT pa.nombre, COUNT(f.Codigo)
 FROM pais pa
 INNER JOIN fabricante fa ON pa.id_pais = fa.pais
 INNER JOIN farmaco f ON fa.id_fabricante = f.fabricante
-WHERE f.Fecha_Registro > '2016-08-01'
+WHERE f.Fecha_Registro >= '2016-08-01'
 GROUP BY pa.nombre
 HAVING COUNT(f.Codigo) >= ALL (SELECT COUNT(f.Codigo)
                               FROM farmaco f
                               INNER JOIN fabricante fa ON f.fabricante = fa.id_fabricante
                               INNER JOIN pais pa ON fa.pais = pa.id_pais
-                              WHERE Fecha_Registro > '2016-08-01'
+                              WHERE Fecha_Registro >= '2016-08-01'
                               GROUP BY pa.nombre);
+
+ /* WHERE f.fecha_registro BETWEEN '2016/08/01' AND CURDATE() */
 
 /* EJERCICIO 14 */ -- OK
 -- ¿Cuántos fármacos diferentes (distinto nombre) se han vendido con fecha posterior a alguno de

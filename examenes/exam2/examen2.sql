@@ -309,7 +309,7 @@ HAVING COUNT(id_fabricante) >= ANY (SELECT COUNT(id_fabricante)
                                       OR pa.nombre LIKE 'DINAMARCA'
                                     GROUP BY pa.nombre);
 
-/* EJERCICIO 16 */
+/* EJERCICIO 16 */ -- OK
 -- Hallar el nombre del empleado que ha realizado pedido de menor coste de todos los realizados.
 
 SELECT v.nombre
