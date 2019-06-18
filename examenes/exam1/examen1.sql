@@ -59,12 +59,11 @@ HAVING SUM(cantidad) >= ALL (SELECT SUM(cantidad)
 /* EJERCICIO 5 */
 -- ¿Cuántos productos tienen más de un fabricante (mismo nombre de fármaco pero diferente fabricante)?
 
-SELECT COUNT(DISTINCT f1.nombre) AS 'Total Nombres Distintos'
-FROM farmaco f1
-WHERE f1.fabricante IN (SELECT f2.fabricante
-                        FROM farmaco f2
-                        GROUP BY f2.nombre
-                        HAVING COUNT(DISTINCT f2.fabricante));
+SELECT COUNT(*)
+FROM (SELECT f.nombre, COUNT(DISTINCT f.fabricante)
+      FROM farmaco f
+      GROUP BY f.nombre
+      HAVING COUNT(DISTINCT f.fabricante)  > 1 ) AS T;
 
 
 /* EJERCICIO 6 */
@@ -140,7 +139,7 @@ WHERE f.Formato_Simple LIKE 'Supositorio'
 
 
 
-/* EJERCICIO 11 */
+/* EJERCICIO 11 */ -- OK
 -- Suponiendo un stock inicial de mil unidades del fármaco más vendido indica con una consulta el
 -- nombre de dicho fármaco y cuántas unidades quedarían ahora en stock. NOTA: aunque no es lo más
 -- correcto se permite hacer uso de LIMIT 1 en este ejercicio.
@@ -193,13 +192,12 @@ HAVING COUNT(f.Codigo) >= ALL (SELECT COUNT(f.Codigo)
                               WHERE Fecha_Registro > '2016-08-01'
                               GROUP BY pa.nombre);
 
-/* EJERCICIO 14 */
+/* EJERCICIO 14 */ -- OK
 -- ¿Cuántos fármacos diferentes (distinto nombre) se han vendido con fecha posterior a alguno de
 -- los pedidos realizados bien en Ceuta bien en Melilla?
 
-SELECT COUNT(DISTINCT(fa.nombre))
-FROM fabricante fa
-INNER JOIN farmaco f ON fa.id_fabricante = f.fabricante
+SELECT COUNT(DISTINCT(f.Codigo))
+FROM farmaco f
 INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
 INNER JOIN pedido p USING(id_pedido)
 INNER JOIN cliente USING(id_cliente)
@@ -207,7 +205,7 @@ WHERE f_pedido >= ANY (SELECT f_pedido
                       FROM pedido p
                       INNER JOIN cliente c USING(id_cliente)
                       INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                      WHERE pro.nombre LIKE 'Murcia' OR pro.nombre LIKE 'Almeria');
+                      WHERE pro.nombre LIKE 'Ceuta' OR pro.nombre LIKE 'Melilla');
 
 
  /* EJERCICIO 15 */

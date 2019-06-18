@@ -45,7 +45,7 @@ WHERE f.Formato_Simple like 'Supositorio'
 +----------+
 */
 
-/* EJERCICIO 3 */
+/* EJERCICIO 3 */ -- OK
  -- Hallar los nombres de los fármacos cuyo precio ha sido rebajado respecto al que aparece
  -- en las facturas emitidas. (Su precio actual de venta según el campo Precio de la tabla
  -- fármacos es inferior al que aparece en la tabla detalles_pedido.
@@ -86,7 +86,7 @@ AND cantidad =  (SELECT max(cantidad)
 */
 
 
- /* EJERCICIO 5 */
+ /* EJERCICIO 5 */ -- OK
 -- Nombre de los fármacos vendidos a clientes de Madrid y no de Barcelona entre el 1 y el 3 de enero de 2017
 
 SELECT f.nombre
@@ -124,7 +124,7 @@ HAVING SUM(dp.cantidad) >= ALL (SELECT SUM(dp.cantidad)
 -- Hallar para cada cliente nacido antes de 1978 el coste total del pedido de mayor
 -- importe para cada uno de esos clientes
 
-SELECT c.id_cliente, MAX(dp.Precio)
+SELECT c.id_cliente, MAX(dp.Precio * dp.cantidad)
 FROM cliente c
 INNER JOIN pedido p USING (id_cliente)
 INNER JOIN detalles_pedido dp USING(id_pedido)
@@ -206,7 +206,7 @@ WHERE ccaa.id_ca NOT IN (SELECT pro.id_ca
                           WHERE v.nombre LIKE 'Steven Jobs'
                             AND YEAR(p.f_pedido) = 2017);
 
-/* EJERCICIO 11 */ -- Falta Checkear
+/* EJERCICIO 11 */ -- OK
 -- Los clientes que han comprado 'SEX-UP' también han comprado... Indicar en una consulta el nombre del
 -- producto (o productos si más de uno ha sido comprado en el mismo máximo número de pedidos) más comprado
 -- por los clientes que han comprado 'SEX-UP' entendiendo por más comprado el que aparece en más pedidos
@@ -237,10 +237,11 @@ HAVING COUNT(*) >= ALL (SELECT COUNT(*)
                                             INNER JOIN pedido p USING(id_cliente)
                                             INNER JOIN detalles_pedido dp USING(id_pedido)
                                             INNER JOIN farmaco f ON dp.id_producto = f.Codigo
-                                            WHERE f.nombre LIKE 'SEX-UP'));
+                                            WHERE f.nombre LIKE 'SEX-UP')
+                        GROUP BY f.nombre);
 
 
-/* EJERCICIO 12 */
+/* EJERCICIO 12 */ -- OK
 -- ¿Cuántos fabricantes diferentes (distinto nombre) han vendido algún fármaco con fecha
 -- posterior a alguno de los pedidos realizados bien en Murcia bien en Almeria?
 
