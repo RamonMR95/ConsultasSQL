@@ -218,7 +218,21 @@ WHERE f_pedido >= ANY (SELECT f_pedido
 -- respuestas en el cuestionario)..
 
 
-
+SELECT DISTINCT f1.fabricante
+FROM farmaco f1
+WHERE NOT EXISTS(SELECT pr2.id_provincia
+                  FROM provincia pr2
+                  INNER JOIN ccaa ON ccaa.id_ca = pr2.id_ca
+                  WHERE ccaa.nombre LIKE 'ANDALUCIA'
+                    AND pr2.id_provincia NOT IN (SELECT pr2.id_provincia
+                                                  FROM farmaco f
+                                                  INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
+                                                  INNER JOIN pedido p USING(id_pedido)
+                                                  INNER JOIN cliente c USING(id_cliente)
+                                                  INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
+                                                  INNER JOIN ccaa ON ccaa.id_ca = pro.id_ca
+                                                  WHERE YEAR(f_pedido) = '2009')
+                                                    AND ccaa.nombre LIKE 'ANDALUCIA');
 
 /* EJERCICIO 16 */
 -- ¿Qué fármacos ha vendido Steve Wozniak en cantidad superior a 80 unidades y no ha
