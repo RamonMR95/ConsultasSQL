@@ -1,4 +1,4 @@
-/* EJERCICIO 1 */
+/* EJERCICIO 1 */ -- OK
 -- Hay dos clientes en la BD que comparten tlfno (tienen el mismo número) ¿De
 -- qué provincias son?
 -- NOTA: da la respuesta con los nombres de las provincias separados por una coma
@@ -64,7 +64,7 @@ WHERE f.precio < dp.precio;
 +----------------+
 */
 
- /* EJERCICIO 4 */
+ /* EJERCICIO 4 */ -- OK
  -- ¿Qué vendedor ha realizado el pedido en el que hay la mayor cantidad vendida de CITOFER?
 
 SELECT v.nombre
@@ -193,7 +193,7 @@ WHERE DATEDIFF(f.Fecha_Registro, '2016-08-01') > 0
 GROUP BY dp.id_dp
 
 
-/* EJERCICIO 10 */
+/* EJERCICIO 10 */ -- OK
 -- ¿En qué ccaa no ha vendido nada Steven Jobs en 2017?
 
 SELECT ccaa.nombre
@@ -298,18 +298,17 @@ WHERE (cantidad * precio ) = (SELECT MIN(cantidad * precio)
 -- Mostrar el nombre del país o países donde hay más de un fabricante cuyo nombre incluya 'FARMA'
 -- (como parte del nombre del fabricante) y su país sea alguno de los países de los vendedores.
 
-SELECT DISTINCT pa.nombre
+SELECT pa.nombre
 FROM pais pa
-INNER JOIN fabricante fa ON pa.id_pais = fa.pais
-WHERE fa.nombre IN (SELECT fa.nombre
-                    FROM fabricante
-                    WHERE fa.nombre LIKE '%FARMA%'
-                    GROUP BY fa.id_fabricante
-                    HAVING COUNT(fa.nombre) > 1)
-  AND fa.pais IN (SELECT v.pais
-                  FROM vendedor v);
+WHERE pa.id_pais IN (SELECT pa.id_pais
+                    FROM pais pa INNER JOIN fabricante fa ON pa.id_pais = fa.pais
+                    WHERE fa.nombre LIKE "%FARMA%"
+                    GROUP BY pa.id_pais
+                    HAVING COUNT(pa.id_pais) > 1)
+                      AND pa.id_pais IN (SELECT v.pais
+                                        FROM vendedor v);
 
-/* EJERCICIO 18 */
+/* EJERCICIO 18 */ -- OK
 -- ¿Cuántos fármacos diferentes (distinto nombre) se han vendido con fecha posterior a alguno
 -- de los pedidos realizados bien en Ceuta bien en Melilla?
 
@@ -337,7 +336,7 @@ WHERE f_pedido >= ALL (SELECT f_pedido
                         INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
                         WHERE pro.nombre LIKE 'CEUTA' OR pro.nombre LIKE 'MELILLA');
 
-/* EJERCICIO 20 */
+/* EJERCICIO 20 */ -- OK
 -- Indica la cantidad total de unidades vendidas del fármaco que ha visto aumentado su precio
 -- en 10 céntimos (El precio que aparece en el fármaco en la tabla fármaco es 10 céntimos
 -- superior al que aparece en detalles pedido)

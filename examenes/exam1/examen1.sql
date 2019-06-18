@@ -1,16 +1,17 @@
 USE CatalogoFarmacia;
 
-/* EJERCICIO 1 */
+/* EJERCICIO 1 */ -- OK
 -- 1- ¿Qué vendedor ha realizado un pedido en el que no hay artículos (fármacos)?
 
-SELECT DISTINCT id_vendedor
-FROM pedido p
-INNER JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
-WHERE id_producto IS NULL;
+SELECT v.nombre
+FROM vendedor v
+INNER JOIN pedido p ON v.cod_vendedor = p.id_vendedor
+WHERE id_pedido NOT IN (SELECT id_pedido
+                        FROM detalles_pedido);
 
 
 
-/* EJERCICIO 2 */
+/* EJERCICIO 2 */ -- OK
 -- Hay dos clientes en la BD que comparten tlfno (tienen el mismo número) ¿De qué provincias son? */
 -- NOTA: da la respuesta con los nombres de las provincias separados por una coma y sin espacios en
 -- blanco adicionales.
@@ -41,18 +42,18 @@ HAVING COUNT(dp.id_dp) >= ALL (SELECT COUNT(dp.id_dp)
                               GROUP BY f.nombre);
 
 
-/* EJERCICIO 4 */
+/* EJERCICIO 4 */ -- OK
 -- ¿En qué fecha se realizó el pedido con un mayor número de unidades totales (cantidad) de fármacos?
 -- Da la respuesta en formato yyyy-mm-dd
 
 SELECT f_pedido
 FROM pedido p
 INNER JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
-GROUP BY p.f_pedido
+GROUP BY dp.id_pedido
 HAVING SUM(cantidad) >= ALL (SELECT SUM(cantidad)
                             FROM detalles_pedido dp
                             INNER JOIN pedido p USING(id_pedido)
-                            GROUP BY p.f_pedido);
+                            GROUP BY dp.id_pedido);
 
 
 /* EJERCICIO 5 */
@@ -77,7 +78,7 @@ INNER JOIN farmaco f ON dp.id_producto = f.Codigo
 WHERE cantidad > 18 AND f.Nombre like 'ENEMOL';
 
 
-/* EJERCICIO 7 */
+/* EJERCICIO 7 */ -- OK
 -- Nombre de los fármacos vendidos a clientes de Madrid y no de Barcelona entre el 1 y el 3
 -- de enero de 2017.
 
@@ -101,7 +102,7 @@ WHERE pro.nombre like 'MADRID'
 
 
 
-/* EJERCICIO 8 */
+/* EJERCICIO 8 */ -- OK
 -- Indica el código de dos letras (cod_pais) del pais que no tiene abreviatura ni empresas
 -- farmacéuticas (fabricantes);
 SELECT cod_pais
@@ -129,7 +130,7 @@ WHERE f.Formato_Simple LIKE 'Supositorio'
 
 
 
- /* EJERCICIO 10  */
+ /* EJERCICIO 10  */ -- OK
  -- ¿Cuántos clientes no han realizado ningún pedido?
 
  SELECT COUNT(id_cliente) AS "Numero de clientes"
