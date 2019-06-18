@@ -206,14 +206,38 @@ WHERE ccaa.id_ca NOT IN (SELECT pro.id_ca
                           WHERE v.nombre LIKE 'Steven Jobs'
                             AND YEAR(p.f_pedido) = 2017);
 
-/* EJERCICIO 11 */
+/* EJERCICIO 11 */ -- Falta Checkear
 -- Los clientes que han comprado 'SEX-UP' también han comprado... Indicar en una consulta el nombre del
 -- producto (o productos si más de uno ha sido comprado en el mismo máximo número de pedidos) más comprado
 -- por los clientes que han comprado 'SEX-UP' entendiendo por más comprado el que aparece en más pedidos
 -- de los clientes que han adquirido 'SEX-UP' (no aquel producto del que más unidades se han vendido).
 -- Da el resultado con los productos separados por comas si hay más de uno.
 
-
+SELECT f.nombre, p.id_pedido
+FROM cliente c
+INNER JOIN pedido p USING(id_cliente)
+INNER JOIN detalles_pedido dp USING(id_pedido)
+INNER JOIN farmaco f ON dp.id_producto = f.Codigo
+WHERE f.nombre NOT LIKE 'SEX-UP'
+  AND id_cliente IN (SELECT c.id_cliente
+                      FROM cliente c
+                      INNER JOIN pedido p USING(id_cliente)
+                      INNER JOIN detalles_pedido dp USING(id_pedido)
+                      INNER JOIN farmaco f ON dp.id_producto = f.Codigo
+                      WHERE f.nombre LIKE 'SEX-UP')
+GROUP BY f.nombre
+HAVING COUNT(*) >= ALL (SELECT COUNT(*)
+                        FROM cliente c
+                        INNER JOIN pedido p USING(id_cliente)
+                        INNER JOIN detalles_pedido dp USING(id_pedido)
+                        INNER JOIN farmaco f ON dp.id_producto = f.Codigo
+                        WHERE f.nombre NOT LIKE 'SEX-UP'
+                        AND id_cliente IN (SELECT c.id_cliente
+                                            FROM cliente c
+                                            INNER JOIN pedido p USING(id_cliente)
+                                            INNER JOIN detalles_pedido dp USING(id_pedido)
+                                            INNER JOIN farmaco f ON dp.id_producto = f.Codigo
+                                            WHERE f.nombre LIKE 'SEX-UP'));
 
 
 /* EJERCICIO 12 */
