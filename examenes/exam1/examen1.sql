@@ -308,7 +308,7 @@ SELECT pa.nombre
 FROM pais pa
 INNER JOIN fabricante fa ON pa.id_pais = fa.pais
 GROUP BY pa.nombre
-HAVING COUNT(id_fabricante) >= ANY (SELECT COUNT(id_fabricante)
+HAVING COUNT(id_fabricante) >= ALL (SELECT COUNT(id_fabricante)
                                     FROM fabricante fa
                                     INNER JOIN pais pa ON pa.id_pais = fa.pais
                                     WHERE pa.nombre LIKE 'JAPON'
