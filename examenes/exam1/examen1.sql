@@ -32,11 +32,11 @@ WHERE c.tlfno IN (SELECT tlfno
 -- pedidos en los que aparece. Ejemplo:
 -- ASPIRINA,45
 
-SELECT f.nombre, COUNT(dp.id_dp) AS 'Nº Ventas'
+SELECT f.nombre, COUNT(DISTINCT dp.id_pedido) AS 'Nº Ventas'
 FROM farmaco f
 INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
 GROUP BY f.nombre
-HAVING COUNT(dp.id_dp) >= ALL (SELECT COUNT(dp.id_dp)
+HAVING COUNT(dp.id_dp) >= ALL (SELECT COUNT(DISTINCT dp.id_pedido)
                               FROM detalles_pedido dp
                               INNER JOIN farmaco f ON dp.id_producto = f.Codigo
                               GROUP BY f.nombre);
