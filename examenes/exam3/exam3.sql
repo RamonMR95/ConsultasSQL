@@ -105,24 +105,15 @@ WHERE id_cliente NOT IN (SELECT id_cliente
 -- Nombre de los fármacos cuyo nombre finaliza por la letra N vendidos a clientes de Madrid y de Barcelona
 -- entre el 1 y el 3 de enero de 2017.
 
-SELECT f.nombre
+SELECT DISTINCT f.nombre
 FROM farmaco f
 INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
 INNER JOIN pedido p ON dp.id_pedido = p.id_pedido
 INNER JOIN cliente c ON p.id_cliente = c.id_cliente
 INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-WHERE pro.nombre like 'MADRID'
-  AND f.nombre NOT IN (SELECT f.nombre
-                    FROM farmaco f
-                    INNER JOIN detalles_pedido dp ON f.Codigo = dp.id_producto
-                    INNER JOIN pedido p ON dp.id_pedido = p.id_pedido
-                    INNER JOIN cliente c ON p.id_cliente = c.id_cliente
-                    INNER JOIN provincia pro ON c.Provincia = pro.id_provincia
-                    WHERE pro.nombre like 'BARCELONA'
-						AND f_pedido BETWEEN '2017-01-01' AND '2017-01-03')
-  AND f_pedido BETWEEN '2017-01-01' AND '2017-01-03'
-  AND f.nombre LIKE '%N';
-
+WHERE f.nombre LIKE '%N'
+	AND (pro.nombre LIKE 'MADRID'
+	OR pro.nombre LIKE 'BARCELONA');
 
 /* EJERCICIO 8 */
 -- Mostrar el numero de farmacos total sumando los de PFIZER, BAYER y ROCHE que se presenten en forma simple
@@ -131,11 +122,11 @@ WHERE pro.nombre like 'MADRID'
 SELECT COUNT(f.Codigo)
 FROM farmaco f
 INNER JOIN fabricante fa ON f.fabricante = fa.id_fabricante
-WHERE fa.nombre LIKE 'PFIZER'
+WHERE (fa.nombre LIKE 'PFIZER'
   OR fa.nombre LIKE 'BAYER'
-  OR fa.nombre LIKE 'ROCHE'
-  AND f.Formato_Simple LIKE 'Tableta'
-  OR f.Formato_Simple LIKE 'Capsula';
+  OR fa.nombre LIKE 'ROCHE')
+  AND (f.Formato_Simple LIKE 'Tableta'
+  OR f.Formato_Simple LIKE 'Capsula');
 
 /* EJERCICIO 9 */
 -- Hallar el nombre del empleado que ha realizado pedido de menor coste de todos los realizados.
@@ -144,8 +135,12 @@ SELECT v.nombre
 FROM vendedor v
 INNER JOIN pedido p ON v.cod_vendedor = p.id_vendedor
 INNER JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
-WHERE (cantidad * precio ) = (SELECT MIN(cantidad * precio)
-                              FROM detalles_pedido dp);
+GROUP BY dp.id_pedido
+HAVING SUM(dp.cantidad * precio ) <= ALL (SELECT SUM(dp.cantidad * precio)
+                    										  FROM detalles_pedido dp
+                                          INNER JOIN pedido p USING(id_pedido)
+                                          INNER JOIN vendedor v ON p.id_vendedor = v.cod_vendedor
+                    										  GROUP BY dp.id_pedido);
 
 
 /* EJERCICIO 10 */
